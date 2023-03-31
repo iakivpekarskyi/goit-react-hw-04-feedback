@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Option, Wrapper } from './FeedbackOptions.styled';
 
-export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
+export function FeedbackOptions({ options, onLeaveFeedback }) {
   return (
     <Wrapper>
       {options.map(option => {
@@ -13,7 +13,7 @@ export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
       })}
     </Wrapper>
   );
-};
+}
 
 FeedbackOptions.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
