@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import { Form } from './App.styled';
 import { FeedbackOptions, Statistics, Section, Notification } from 'components';
 
+const ACTIONS = {
+  INCREMENT: 'increment',
+};
+
+const feedbackReducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.INCREMENT:
+      return { ...state, [action.payload]: state[action.payload] + 1 };
+    default:
+      return state;
+  }
+};
+
 export const App = () => {
-  const [feedbackState, setFeedbackState] = useState({
+  const [feedbackState, dispatch] = useReducer(feedbackReducer, {
     good: 0,
     neutral: 0,
     bad: 0,
@@ -11,10 +24,7 @@ export const App = () => {
 
   const giveFeedback = event => {
     const { id } = event.target;
-    setFeedbackState(prevState => ({
-      ...prevState,
-      [id]: prevState[id] + 1,
-    }));
+    dispatch({ type: ACTIONS.INCREMENT, payload: id });
   };
 
   const countTotalFeedback = () => {
@@ -22,10 +32,9 @@ export const App = () => {
     let result = good + neutral + bad;
     return result;
   };
-  //test
+
   const countPositiveFeedbackPercentage = () => {
     const result = countTotalFeedback();
-    const { good } = feedbackState;
     const percentage = (good * 100) / result;
     return Math.round(percentage);
   };
